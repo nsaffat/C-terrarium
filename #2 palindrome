@@ -6,23 +6,23 @@ using namespace std;
 
 int main() {
   // declaring variables
-  char input[80], final[80], reverse[80];
+  char input[80], final[80];
   int i=0,s=0,l=0;
 
   //filling the strings with 0s as placeholders
   for (i=0; i<80; i++) {
     input[i]=0;
     final[i]=0;
-    reverse[i]=0;
       }
 
-  cout<< "enter phrase below \n";
+  cout<< "enter phrase below. (dont use apostrophes) \n";
   //used cin.get so spaces would get read as characters
   cin.get (input, 80);
 
-  //copying letters (no spaces or ,.?!;:) into nospace string
+  //copying letters (no spaces or ,.?!;:") into nospace string
   for (i=0; i<80; i++) {
-    if ((input[i] != ' ')&&(input[i] !=',')&&(input[i] !='.')&&(input[i] !='!')&&(input[i] !='?')&&(input[i] !=';')&&(input[i] !=':')) {
+    if ((input[i] != ' ')&&(input[i] !=',')&&(input[i] !='.')&&(input[i] !='!')&&(input[i] !='?')&&(input[i] !=';')&&(input[i] !=':')&&(input[i] !='"')) {
+      
       final[s] = input[i];
       s = s+1; }
   }
@@ -38,15 +38,9 @@ int main() {
   cout << " str no uppercase--> " << final << endl;
   l= strlen(final) - 1;
 
-  //creates a backword string and puts it in 'reverse'
+  //checks every char in string with the opposite one
   for(i=0; i<=l; i++){
-    reverse[i] = final[l-i]; }
-
-  cout << " reverse str ---> " << reverse << endl;
-
-  // wasn't sure how to do array comparisons so i made a loop to compare them
-  for (i=0; i<=l; i++) {
-    if (final[i]!= reverse[i]){
+    if (final[i]!= final[l-i]){
       cout << " is NOT a palindrome! ";
       break;}
     if (i == l) {

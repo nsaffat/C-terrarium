@@ -1,53 +1,94 @@
 #include <iostream>
 using namespace std;
 
-char ttt[3][3] = {{'1','2','3'},{'4','5','6'},{'7','8','9'}};
-int turn=1, r, c;
+char ttt[10] = {'0','1','2','3','4','5','6','7','8','9'};
+int turn=1, i;
 
 
 void board() {
   cout << endl << endl;
-  cout << " "<< ttt[0][0]<<" | "<< ttt[0][1]<<" | "<<ttt[0][2]<<" " << endl;
+  cout << " "<< ttt[1]<<" | "<< ttt[2]<<" | "<<ttt[3]<<" " << endl;
   cout << "---|---|---" << endl;
-  cout << " "<< ttt[1][0]<<" | "<< ttt[1][1]<<" | "<<ttt[1][2]<<" " << endl;
+  cout << " "<< ttt[4]<<" | "<< ttt[5]<<" | "<<ttt[6]<<" " << endl;
   cout << "---|---|---" << endl;
-  cout << " "<< ttt[2][0]<<" | "<< ttt[2][1]<<" | "<<ttt[2][2]<<" " << endl;
+  cout << " "<< ttt[7]<<" | "<< ttt[8]<<" | "<<ttt[9]<<" " << endl;
   cout << endl;
 }
 
-
-
 void gameplay () {
-  
   char input;
- 
-  cout << "enter location (1-9) of move " ;
+  
+  if (turn % 2 == 1)  {
+    cout << "Player X turn. ";}
+  else {
+    cout << "Player O turn. ";}
+  cout << "Enter location (1-9) of mark " ;
   cin >> input;
 
-  for (r=0, c=0; r<3 && c<3; r++, c++) {
-    if (input == ttt[r][c]) {
-       if (turn % 2 == 1)  {
-	 ttt[r][c] = 'X';}
-       else {
-	 ttt[r][c] = 'O'; }
+  for (i=0; i<10; i++) {
+    if (input == ttt[i]) {
+      if (turn % 2 == 1)  {
+	ttt[i] = 'X';}
+      else {
+	ttt[i] = 'O'; }
       turn = turn + 1;
-      break; }
-    if ((r == 2) && (c == 2)) {
-       cout << "input invalid. try again";
-       break; }
+      break;
+    }
+    if (i==9) {
+      cout << "input invalid. try again";
+    }
   }
 }
 
+bool threeinarow() {
+  if (ttt[1] == ttt[2] && ttt[2] == ttt[3]) {
+    return true;}
+  if (ttt[4] == ttt[5] && ttt[5] == ttt[6]) {
+    return true;}
+  if (ttt[7] == ttt[8] && ttt[8] == ttt[9]) {
+    return true;}
+  
+  if (ttt[1] == ttt[4] && ttt[4] == ttt[7]) {
+    return true;}
+  if (ttt[2] == ttt[5] && ttt[5] == ttt[8]) {
+    return true;}
+  if (ttt[3] == ttt[6] && ttt[6] == ttt[9]) {
+    return true;}
+
+  if (ttt[1] == ttt[5] && ttt[5] == ttt[9]) {
+    return true;}  
+  if (ttt[3] == ttt[5] && ttt[5] == ttt[7]) {
+    return true;}
+  
+  else {
+    return false;}
+  }
+
+
 int main() {
   board ();
-  
-  while (turn < 30) {
+
+  while (turn <= 10) {
     gameplay ();
-    board ();    
+    board ();
+    threeinarow ();
+    if (threeinarow() == true) {
+      if (turn % 2 == 1)  {
+	cout << "winner is Player O \n" << endl; }
+      else {
+	cout << "winner is Player X \n" << endl; }
+      break;}
+      
+    if (turn == 10) {
+      cout << " game is a TIE ";
+      break; }
   }
   
   return 0;
 }
+
+
+
 
 
 

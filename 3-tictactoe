@@ -2,11 +2,10 @@
 using namespace std;
 
 char ttt[3][3] = {{'1','2','3'},{'4','5','6'},{'7','8','9'}};
-char input[1];
 int turn=1, r, c;
 
 
-int board() {
+void board() {
   cout << endl << endl;
   cout << " "<< ttt[0][0]<<" | "<< ttt[0][1]<<" | "<<ttt[0][2]<<" " << endl;
   cout << "---|---|---" << endl;
@@ -14,13 +13,15 @@ int board() {
   cout << "---|---|---" << endl;
   cout << " "<< ttt[2][0]<<" | "<< ttt[2][1]<<" | "<<ttt[2][2]<<" " << endl;
   cout << endl;
-
-  return 0;}
-
+}
 
 
-int gameplay () {   
-  cout << "enter location (1-9) of move \n" ;
+
+void gameplay () {
+  
+  char input;
+ 
+  cout << "enter location (1-9) of move " ;
   cin >> input;
 
   for (r=0, c=0; r<3 && c<3; r++, c++) {
@@ -29,28 +30,26 @@ int gameplay () {
 	 ttt[r][c] = 'X';}
        else {
 	 ttt[r][c] = 'O'; }
-      cout << "gameplay worked";
       turn = turn + 1;
       break; }
+    if ((r == 2) && (c == 2)) {
+       cout << "input invalid. try again";
+       break; }
   }
-    
-    /*   if ((r == 2) && (c == 2)) {
-      cout << "input invalid. try again"; }
-      } */
-
-  return 0;
-  }
-
-
-
+}
 
 int main() {
   board ();
-  gameplay ();
-  board ();
-
+  
+  while (turn < 30) {
+    gameplay ();
+    board ();    
+  }
+  
   return 0;
 }
+
+
 
 
 

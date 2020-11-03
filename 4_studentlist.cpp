@@ -64,6 +64,7 @@ void Delete(vector<Frame*> &Vec1) {
   cin >> number;
 
   for (vector<Frame*>::iterator i = Vec1.begin(); i != Vec1.end(); ++i) {
+    //why can't the value retrived from the struct be read as an int?
     if ( (*i)->id == number) {
       Vec1.erase(Vec1.begin() + i);
       break; }

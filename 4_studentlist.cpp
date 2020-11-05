@@ -10,7 +10,7 @@ using namespace std;
 
 
 struct Frame {char firstname[10]; char lastname[10]; int id; float gpa; };
-vector <Frame*> Vec1;
+//vector <Frame*> Vec1;
 
 //function prototypes
 void Add(vector<Frame*> &Vec1);
@@ -20,7 +20,8 @@ void Delete(vector<Frame*> &Vec1);
 
 int main () {
   char command[6];
-
+  vector <Frame*> Vec1;
+  
   while (strcmp (command,"QUIT") != 0) {
     cout << "\nEnter one of the following commands: ADD, PRINT, DELETE, QUIT \n";
     cin >> command;
@@ -58,17 +59,25 @@ void Print(vector<Frame*> &Vec1)  {
  }
 }
 
+//more vector information http://www.cplusplus.com/reference/vector/vector/?kw=vector
+//vector erase info http://www.cplusplus.com/reference/vector/vector/erase/
 void Delete(vector<Frame*> &Vec1) {
-  int number;
+  int number,j=0;
   cout << "What is the ID number of the student you want to delete? \n";
   cin >> number;
-
-  for (vector<Frame*>::iterator i = Vec1.begin(); i != Vec1.end(); ++i) {
-    //why can't the value retrived from the struct be read as an int?
+  
+  for (vector<Frame*>::iterator i = Vec1.begin(); i != Vec1.end(); ++i,j++) {
+    //  cout << (*i)->id << " " << endl;
     if ( (*i)->id == number) {
-      Vec1.erase(Vec1.begin() + i);
-      break; }
-  }
+      cout << (*i)->id << " " << endl;
+      Vec1.erase(Vec1.begin()+j);
+      break;      
+    }
+    // else {
+    // cout << "failure "  << endl;
+    // }
+    
+  } 
 }
 
 

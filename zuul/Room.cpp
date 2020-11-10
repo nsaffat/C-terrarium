@@ -70,42 +70,39 @@ void Room::removeItem(const char* nameItem){
     }
   }
 }
-void Room::removeAllItem() {
-  int j=0;
-  /*
-  for (vector<Item*>::iterator i = ItemList.begin(); i != ItemList.end(); ++i,j++) {
-    cout << "In removeAllItem\n";
-    ItemList.erase(ItemList.begin()+j);
- }
-  */
 
-  ItemList.clear();
-
-}
 
 void Room::printItems() {
   for (vector<Item*>::iterator i = ItemList.begin(); i != ItemList.end(); ++i) {
     cout << (*i)->name << "  ";
   }
   if (ItemList.size()==0) {
-    cout << "NO ITEMS IN ROOM";
+    cout << "NONE";
   }
 }
 
 void Room::printExits() {
-  if ( NorthExit != NULL ){
+  if ( getNorthExit() != NULL ){
     cout << " NORTH ";
   }
-  if ( SouthExit != NULL ){
+  if ( getSouthExit() != NULL ){
     cout << " SOUTH ";
   }
-  if ( WestExit != NULL ){
+  if ( getWestExit() != NULL ){
     cout << " WEST ";
   }
-  if ( EastExit != NULL ){
+  if ( getEastExit() != NULL ){
     cout << " EAST ";
   }
   cout << "\n"; 
 }
+
+void Room::removeAllItem() {
+  int j=0; 
+  for (vector<Item*>::iterator i = ItemList.begin(); i != ItemList.end(); ++i,j++) { 
+      ItemList.erase(ItemList.begin()+j);
+ }
+}
+
 
 

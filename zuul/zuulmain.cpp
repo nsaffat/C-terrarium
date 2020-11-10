@@ -17,7 +17,7 @@ Room *RoomPtr[15];
 Room* createMap(); //creates map and saves the Ptr of Room 0
 void createItems(); //assigns every item to a room
 void printItems();  //prints all items in player inventory
-void pickItem(Room* cR);  //picks all Items in room
+void pickItem(char nameItem);
 void dropItem(char nameItem);
 void printRoom(Room* Ptr); //prints the room #, items in the room, possible exits
 Room* moveRoom(Room* Ptr);
@@ -26,8 +26,8 @@ bool CheckWin();
 
 
 int main(){
-  char command[6], direction[10], item[15];
-  vector <Item*> PlayerInventory; //vector for player inventory
+  char command[6];
+  vector <Item*> ItemInventory; //vector for player inventory
   Room *currRoom = NULL, *tR; //Room that player is located in
   currRoom = createMap();  
   createItems();
@@ -40,53 +40,40 @@ int main(){
   while (CheckWin()==0){
  
     printRoom(currRoom);
-
-    
+    /*
     cout << "Choose what you want to do: PICK DROP MOVE QUIT\n";
     cin >> command;
 
     if (strcmp (command,"MOVE") == 0) {
-      //Move code is not its own function because of pointer corruption
-      cout << "\nWhich direction do you want to move?\n";
-      cin >> direction;
-  
-      if (strcmp (direction,"NORTH") == 0) {
-	tR = currRoom->getNorthExit();
-	if(tR!=NULL) currRoom =  tR;
-      }
-
-      if (strcmp (direction,"SOUTH") == 0) {
-	tR = currRoom->getSouthExit();
-	if(tR!=NULL) currRoom =  tR;
-      }
-      
-      if (strcmp (direction,"EAST") == 0) {
-	tR = currRoom->getEastExit();
-	if(tR!=NULL) currRoom =  tR;
-      }
-      
-      if (strcmp (direction,"WEST") == 0) {
-	tR = currRoom->getWestExit();
-	if(tR!=NULL) currRoom =  tR;
-      }
+      currRoom = moveRoom(currRoom);
+      cout << "\nIn main func " << currRoom;
     }
-    
-    if (strcmp (command,"PICK") == 0) {
-      
-      for (int i=0; i<5; i++) {
-	if (totalItems[i]->room == currRoom->getRoomID() ){
-	  PlayerInventory.push_back(totalItems[i]);
-	}
-      }
-      currRoom->removeAllItem();
-      currRoom->printItems();  
-    }
-
-    
     if (strcmp (command,"QUIT") == 0) {
       break;
     }
-    
+    */
+
+    tR =  currRoom->getNorthExit();    
+    if(tR!=NULL) printRoom(tR);
+    tR =  currRoom->getSouthExit();    
+    if(tR!=NULL) printRoom(tR);
+    tR =  currRoom->getEastExit();    
+    if(tR!=NULL) printRoom(tR);
+    tR =  currRoom->getWestExit();    
+    if(tR!=NULL) printRoom(tR);
+
+    currRoom = currRoom->getNorthExit();
+    tR =  currRoom->getNorthExit();    
+    if(tR!=NULL) printRoom(tR);
+    tR =  currRoom->getSouthExit();    
+    if(tR!=NULL) printRoom(tR);
+    tR =  currRoom->getEastExit();    
+    if(tR!=NULL) printRoom(tR);
+    tR =  currRoom->getWestExit();    
+    if(tR!=NULL) printRoom(tR);
+  
+    break;
+
   }
   return 0;
 }
@@ -96,24 +83,17 @@ bool CheckWin() {
   return 0;
 }
 
-//void pickItem(Room* cR) {
-// cR->removeAll(); //removes object from room
-//}
-
-
-Room* moveRoom(Room *cR) {
+Room* moveRoom(Room* cR) {
   char direction[5];
-  Room *tR;
   
   cout << "\nWhich direction do you want to move?\n";
   cin >> direction;
   
   if (strcmp (direction,"NORTH") == 0) {
-    cout << "In moveRoom " << cR << "\n";
-    tR = cR->getNorthExit();
-    cout << "\nMoved  " << tR;
+    cR = cR->getNorthExit();
+    cout << "\nMoved  " << cR;
   }
-  return tR;
+  return cR;
 }
 
 void printRoom(Room* currRoom) {
@@ -131,6 +111,9 @@ void printRoom(Room* currRoom) {
   currRoom->printExits();
   cout << "\n";
 }
+
+
+
 
 
 void createItems() {
@@ -168,9 +151,11 @@ Room* createMap() {
   for (i=0; i<15; i++) {
     RoomPtr[i] =  new Room;
     RoomPtr[i]->setRoomID(i);
-  
-    //cout << "Room Ptr " << RoomPtr[i] << "\n"; 
-    
+    RoomPtr[i]->setNorthExit(NULL);
+    RoomPtr[i]->setSouthExit(NULL);
+    RoomPtr[i]->setEastExit(NULL);
+    RoomPtr[i]->setWestExit(NULL);
+    cout << "Room Ptr " << RoomPtr[i] << "\n"; 
   }
 
   //setting the current Room pointer (declared in Main) to the adress of the first room. Will be used in main function
@@ -186,8 +171,11 @@ Room* createMap() {
   RoomPtr[0]->setEastExit(RoomPtr[2]);
   
   RoomPtr[1]->setSouthExit(RoomPtr[2]);
-
-  RoomPtr[2]->setNorthExit(RoomPtr[1]);   RoomPtr[2]->setSouthExit(RoomPtr[4]);   RoomPtr[2]->setEastExit(RoomPtr[3]);  RoomPtr[2]->setWestExit(RoomPtr[0]);
+  
+  RoomPtr[2]->setNorthExit(RoomPtr[1]);
+  RoomPtr[2]->setSouthExit(RoomPtr[4]);
+  RoomPtr[2]->setEastExit(RoomPtr[3]);
+  RoomPtr[2]->setWestExit(RoomPtr[0]);
 
   RoomPtr[3]->setWestExit(RoomPtr[2]);
 
@@ -195,24 +183,17 @@ Room* createMap() {
 
   RoomPtr[5]->setEastExit( RoomPtr[6]);
 
-  RoomPtr[6]->setEastExit( RoomPtr[7]);   RoomPtr[6]->setWestExit( RoomPtr[5]);  RoomPtr[6]->setSouthExit( RoomPtr[0]);
-
+  RoomPtr[6]->setEastExit( RoomPtr[7]);
+  RoomPtr[6]->setWestExit( RoomPtr[5]);  RoomPtr[6]->setSouthExit( RoomPtr[0]);
   RoomPtr[7]->setWestExit(RoomPtr[6]);
-
   RoomPtr[8]->setEastExit( RoomPtr[9]);
-
   RoomPtr[9]->setEastExit( RoomPtr[10]);   RoomPtr[9]->setWestExit( RoomPtr[8]);  RoomPtr[9]->setNorthExit( RoomPtr[0]);
-
   RoomPtr[10]->setWestExit(RoomPtr[9]);
-
   RoomPtr[11]->setNorthExit( RoomPtr[12]);
-
   RoomPtr[12]->setNorthExit(RoomPtr[13]);   RoomPtr[12]->setSouthExit(RoomPtr[11]);  RoomPtr[12]->setWestExit(RoomPtr[14]);  RoomPtr[12]->setEastExit(RoomPtr[0]);
-
   RoomPtr[13]->setSouthExit(RoomPtr[12]);
-
   RoomPtr[14]->setEastExit( RoomPtr[12]);
-  
+  */
   
   return RoomPtr[0];
 }

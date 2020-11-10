@@ -123,8 +123,8 @@ void createItems() {
   }
 
   strcpy( (totalItems[0]->name), "EYEBALL");  
-  (*totalItems[0]).room = 8;
-  RoomPtr[8]->addItem(totalItems[0]);
+  (*totalItems[0]).room = 7;
+  RoomPtr[7]->addItem(totalItems[0]);
  
   strcpy( (totalItems[1]->name), "KNIFE");    
   (*totalItems[1]).room = 2;
